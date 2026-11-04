@@ -2,13 +2,13 @@ package co.edu.unilibre.tetris.vista;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class VentanaPrincipal extends JFrame {
 
+    private JPanel panelPrincipal;
+    private JButton botonUnJugador;
     private JButton botonMultijugador;
-    private JButton botonRanking;
+    private JButton botonInstrucciones;
     private JButton botonSalir;
 
     public VentanaPrincipal() {
@@ -22,52 +22,45 @@ public class VentanaPrincipal extends JFrame {
     }
 
     private void inicializarComponentes() {
-        // Panel principal con diseño de cuadrícula
-        JPanel panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(new GridBagLayout());
-        panelPrincipal.setBackground(new Color(30, 30, 30)); // Fondo oscuro estilo gamer
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(15, 15, 15, 15);
-        gbc.gridx = 0;
+        panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(new BoxLayout(panelPrincipal, BoxLayout.Y_AXIS));
+        panelPrincipal.setBackground(new Color(18, 18, 18)); // Fondo negro moderno
+        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 
         // Título
-        JLabel etiquetaTitulo = new JLabel("TETRIS ELEMENTAL");
-        etiquetaTitulo.setForeground(Color.WHITE);
-        etiquetaTitulo.setFont(new Font("Arial", Font.BOLD, 22));
-        gbc.gridy = 0;
-        panelPrincipal.add(etiquetaTitulo, gbc);
+        JLabel titulo = new JLabel("TETRIS ELEMENTAL");
+        titulo.setForeground(new Color(229, 9, 20)); // Rojo contrastante
+        titulo.setFont(new Font("Arial", Font.BOLD, 22));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Botón Multijugador 1v1
-        botonMultijugador = crearBotonEstilizado("Jugar Multijugador 1v1");
-        gbc.gridy = 1;
-        panelPrincipal.add(botonMultijugador, gbc);
-
-        // Botón Ranking Histórico
-        botonRanking = crearBotonEstilizado("Ver Ranking Histórico");
-        gbc.gridy = 2;
-        panelPrincipal.add(botonRanking, gbc);
-
-        // Botón Salir
+        // Botones
+        botonUnJugador = crearBotonEstilizado("1 Jugador");
+        botonMultijugador = crearBotonEstilizado("Multijugador 1v1");
+        botonInstrucciones = crearBotonEstilizado("Instrucciones");
         botonSalir = crearBotonEstilizado("Salir");
-        gbc.gridy = 3;
-        panelPrincipal.add(botonSalir, gbc);
 
-        // Acciones de los botones
-        botonMultijugador.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                abrirVentanaJuego();
-            }
-        });
-
+        // Eventos
+        botonMultijugador.addActionListener(e -> abrirVentanaJuego());
         botonSalir.addActionListener(e -> System.exit(0));
+
+        // Agregar elementos al panel con espacios
+        panelPrincipal.add(titulo);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 40)));
+        panelPrincipal.add(botonUnJugador);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelPrincipal.add(botonMultijugador);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelPrincipal.add(botonInstrucciones);
+        panelPrincipal.add(Box.createRigidArea(new Dimension(0, 15)));
+        panelPrincipal.add(botonSalir);
 
         add(panelPrincipal);
     }
 
     private JButton crearBotonEstilizado(String texto) {
         JButton boton = new JButton(texto);
-        boton.setPreferredSize(new Dimension(220, 40));
+        boton.setMaximumSize(new Dimension(280, 45));
+        boton.setAlignmentX(Component.CENTER_ALIGNMENT);
         boton.setBackground(new Color(220, 50, 50)); // Estilo rojo contrastante
         boton.setForeground(Color.WHITE);
         boton.setFont(new Font("Arial", Font.BOLD, 14));
@@ -83,8 +76,7 @@ public class VentanaPrincipal extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            VentanaPrincipal ventana = new VentanaPrincipal();
-            ventana.setVisible(true);
+            new VentanaPrincipal().setVisible(true);
         });
     }
 }
